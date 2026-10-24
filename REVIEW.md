@@ -26,4 +26,6 @@ Projeto de estudo (Next.js, pages router). Hoje tem um arquivo de código,
 
 ## O que ignorar
 
+Ignorar vale só para estilo e lógica: segredo, PII, credencial e mudança em gate continuam bloqueando em qualquer caminho, inclusive nos listados abaixo.
+
 - `node_modules/`, `.next/`, `package-lock.json`.
