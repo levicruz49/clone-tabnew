@@ -1,0 +1,31 @@
+# Gates de push do ambiente (mesmos do bootstrap-novo-projeto.sh).
+# Mínimo de propósito: o projeto tem um arquivo de código e nenhum teste.
+# Quando ganhar teste ou baseline, acrescentar test-js e quality-gate.
+
+default_install_hook_types: [pre-commit, pre-push]
+fail_fast: false
+
+repos:
+  - repo: local
+    hooks:
+      - id: audit-secrets
+        name: audit-secrets-git.sh (full git history)
+        entry: bash -c 'bash /home/mrcr/projetos/.agentes/scripts/audit-secrets-git.sh .'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: security-scan
+        name: security-scan (CVE em dependência + SAST)
+        entry: bash -c 'bash /home/mrcr/projetos/.agentes/scripts/security-scan.sh .'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: security-gate-feat
+        name: security gate (juiz do diff, bloqueia CRÍTICO/ALTO)
+        entry: bash -c 'bash /home/mrcr/projetos/.agentes/scripts/security-gate-feat.sh .'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
